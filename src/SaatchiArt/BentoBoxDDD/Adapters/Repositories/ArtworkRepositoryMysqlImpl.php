@@ -2,30 +2,24 @@
 
 declare(strict_types=1);
 
-namespace SaatchiArt\BentoBoxDDD\SecondaryAdapters\Repositories;
+namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories;
 
-use Illuminate\Database\ConnectionInterface as Database;
+use SaatchiArt\BentoBoxDDD\Domain\Repositories\ArtworkRepository;
 use SaatchiArt\BentoBoxDDD\Entities\Artworks\ArtworkEntity;
 use SaatchiArt\BentoBoxDDD\Entities\Artworks\ArtworkImageValueObject;
-use SaatchiArt\BentoBoxDDD\Events\ArtworkUpdatedEvent;
-use SaatchiArt\BentoBoxDDD\Services\UserActions\SecondaryAdapters\Repositories\ArtworkRepositoryInterface;
 
-final class ArtworkRepository implements ArtworkRepositoryInterface
+final class ArtworkRepositoryMysqlImpl extends AbstractSupportsTransactions implements ArtworkRepository
 {
-    /** @var Database */
-    private $database;
-
-    public function __construct(
-        Database $database
-    ) {
-        $this->database = $database;
+    /** @inheritDoc */
+    protected function getConnectionName(): string
+    {
+        return 'central1';
     }
 
     /** @return ArtworkEntity[] */
     public function getByUserId(int $userId): array
     {
-        return $this
-            ->database
+        return $this->getConnection()
             ->table('artworks')
             ->where('user_id', '=', $userId)
             ->get()
@@ -38,15 +32,12 @@ final class ArtworkRepository implements ArtworkRepositoryInterface
 
     public function storeArtwork(ArtworkEntity $artwork): void
     {
-        $this
-            ->database
+        $this->getConnection()
             ->table('artworks')
             ->updateOrInsert([
                 'id' => $artwork->getId(),
                 'is_for_sale' => $artwork->isForSale(),
                 'relative_image_path' => $artwork->getArtworkImageRelativePath(),
             ]);
-
-        \event(new ArtworkUpdatedEvent($artwork->getId()));
     }
 }

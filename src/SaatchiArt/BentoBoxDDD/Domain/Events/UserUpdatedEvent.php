@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SaatchiArt\BentoBoxDDD\Events;
+namespace SaatchiArt\BentoBoxDDD\Domain\Events;
 
 final class UserUpdatedEvent
 {

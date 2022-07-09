@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SaatchiArt\BentoBoxDDD\Exceptions;
+namespace SaatchiArt\BentoBoxDDD\Domain\Exceptions;
 
 final class UserNotFoundException extends \DomainException
 {

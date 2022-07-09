@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace SaatchiArt\BentoBoxDDD\Services\UserActions\SecondaryAdapters\Repositories;
+namespace SaatchiArt\BentoBoxDDD\Domain\Repositories;
 
 use SaatchiArt\BentoBoxDDD\Entities\Artworks\ArtworkEntity;
 
-interface ArtworkRepositoryInterface
+interface ArtworkRepository extends SupportsTransactions
 {
     /** @return ArtworkEntity[] */
     public function getByUserId(int $userId): array;

@@ -2,30 +2,24 @@
 
 declare(strict_types=1);
 
-namespace SaatchiArt\BentoBoxDDD\SecondaryAdapters\Repositories;
+namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories;
 
-use Illuminate\Database\ConnectionInterface as Database;
+use SaatchiArt\BentoBoxDDD\Domain\Repositories\UserRepository;
 use SaatchiArt\BentoBoxDDD\Entities\Users\UserEntity;
-use SaatchiArt\BentoBoxDDD\Events\UserUpdatedEvent;
 use SaatchiArt\BentoBoxDDD\Exceptions\UserNotFoundException;
-use SaatchiArt\BentoBoxDDD\Services\UserActions\SecondaryAdapters\Repositories\UserRepositoryInterface;
 
-final class UserRepository implements UserRepositoryInterface
+final class UserRepositoryMysqlImpl extends AbstractSupportsTransactions implements UserRepository
 {
-    /** @var Database */
-    private $database;
-
-    public function __construct(
-        Database $database
-    ) {
-        $this->database = $database;
+    /** @inheritDoc */
+    protected function getConnectionName(): string
+    {
+        return 'central1';
     }
 
     /** @throws UserNotFoundException */
     public function findByUserId(int $userId): UserEntity
     {
-        $row = $this
-            ->database
+        $row = $this->getConnection()
             ->table('users')
             ->where('id', '=', $userId)
             ->first();
@@ -39,14 +33,11 @@ final class UserRepository implements UserRepositoryInterface
 
     public function storeUser(UserEntity $user): void
     {
-        $this
-            ->database
+        $this->getConnection()
             ->table('users')
             ->updateOrInsert([
                 'id' => $user->getId(),
                 'is_on_vacation' => $user->isOnVacation(),
             ]);
-
-        \event(new UserUpdatedEvent($user->getId()));
     }
 }
