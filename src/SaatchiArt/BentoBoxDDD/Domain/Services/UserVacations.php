@@ -13,8 +13,8 @@ class UserVacations
     private ArtworkRepository $artworkRepository;
 
     /**
-     * @param UserRepository|SaatchiArt\BentoBoxDDD\Adapters\Repositories\UserRepositoryMysqlImpl $userRepository
-     * @param ArtworkRepository|SaatchiArt\BentoBoxDDD\Adapters\Repositories\ArtworkRepositoryMysqlImpl $artworkRepository
+     * @param UserRepository|\SaatchiArt\BentoBoxDDD\Adapters\Repositories\UserRepositoryMysqlImpl $userRepository
+     * @param ArtworkRepository|\SaatchiArt\BentoBoxDDD\Adapters\Repositories\ArtworkRepositoryMysqlImpl $artworkRepository
      */
     public function __construct(UserRepository $userRepository, ArtworkRepository $artworkRepository)
     {
