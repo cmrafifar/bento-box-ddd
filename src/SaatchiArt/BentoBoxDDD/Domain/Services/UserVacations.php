@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SaatchiArt\BentoBoxDDD\Domain\Services;
 
+use SaatchiArt\BentoBoxDDD\Adapters\Repositories\ArtworkRepositoryMysqlImpl;
+use SaatchiArt\BentoBoxDDD\Adapters\Repositories\UserRepositoryMysqlImpl;
 use SaatchiArt\BentoBoxDDD\Domain\Repositories\ArtworkRepository;
 use SaatchiArt\BentoBoxDDD\Domain\Repositories\UserRepository as UserRepository;
 
@@ -13,8 +15,8 @@ class UserVacations
     private ArtworkRepository $artworkRepository;
 
     /**
-     * @param UserRepository $userRepository
-     * @param ArtworkRepository $artworkRepository
+     * @param UserRepository|UserRepositoryMysqlImpl $userRepository
+     * @param ArtworkRepository|ArtworkRepositoryMysqlImpl $artworkRepository
      */
     public function __construct(UserRepository $userRepository, ArtworkRepository $artworkRepository)
     {
