@@ -6,7 +6,7 @@ namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories;
 
 use Illuminate\Database\DatabaseManager;
 
-class ProvisioningTransaction extends AbstractSupportsTransactions
+class ProvisioningTransaction extends AbstractSingleConnection
 {
     private string $connectionName;
 
@@ -17,7 +17,7 @@ class ProvisioningTransaction extends AbstractSupportsTransactions
     }
 
     /** @inheritDoc */
-    protected function getConnectionName(): string
+    public function getConnectionName(): string
     {
         return $this->connectionName;
     }
@@ -37,13 +37,13 @@ class ProvisioningTransaction extends AbstractSupportsTransactions
     /** @throws \RuntimeException */
     private function validateProvisioning(callable $provisioning): void
     {
-        /** @var AbstractSupportsTransactions[] $supportsTransactions */
+        /** @var AbstractSingleConnection[] $supportsTransactions */
         $supportsTransactionsList = \array_values($provisioning());
         $count = \count($supportsTransactionsList);
 
         $connectionName = $this->getConnection()->getName();
 
-        $filtered = \array_filter($supportsTransactionsList, static function (AbstractSupportsTransactions $supportsTransactions) use ($connectionName) {
+        $filtered = \array_filter($supportsTransactionsList, static function (AbstractSingleConnection $supportsTransactions) use ($connectionName) {
             return $supportsTransactions->getConnectionName() === $connectionName;
         });
         $countOfFiltered = \count($filtered);

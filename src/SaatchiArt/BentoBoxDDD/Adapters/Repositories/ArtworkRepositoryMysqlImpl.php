@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories;
 
-use SaatchiArt\BentoBoxDDD\Domain\Repositories\ArtworkRepository;
+use SaatchiArt\BentoBoxDDD\Domain\Repositories\Artwork;
 use SaatchiArt\BentoBoxDDD\Entities\Artworks\ArtworkEntity;
 use SaatchiArt\BentoBoxDDD\Entities\Artworks\ArtworkImageValueObject;
 
-final class ArtworkRepositoryMysqlImpl extends AbstractSupportsTransactions implements ArtworkRepository
+final class ArtworkRepositoryMysqlImpl extends AbstractSingleConnection implements Artwork
 {
     /** @inheritDoc */
-    protected function getConnectionName(): string
+    public function getConnectionName(): string
     {
         return 'central1';
     }
@@ -39,5 +39,24 @@ final class ArtworkRepositoryMysqlImpl extends AbstractSupportsTransactions impl
                 'is_for_sale' => $artwork->isForSale(),
                 'relative_image_path' => $artwork->getArtworkImageRelativePath(),
             ]);
+    }
+
+
+    /** @inheritDoc */
+    public function beginTransaction()
+    {
+        $this->getConnection()->beginTransaction();
+    }
+
+    /** @inheritDoc */
+    public function commitTransaction()
+    {
+        $this->getConnection()->commit();
+    }
+
+    /** @inheritDoc */
+    public function rollbackTransaction()
+    {
+        $this->getConnection()->rollBack();
     }
 }

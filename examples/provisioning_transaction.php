@@ -7,8 +7,8 @@ use Illuminate\Database\DatabaseManager;
 use SaatchiArt\BentoBoxDDD\Adapters\Repositories\ArtworkRepositoryMysqlImpl;
 use SaatchiArt\BentoBoxDDD\Adapters\Repositories\UserRepositoryMysqlImpl;
 use SaatchiArt\BentoBoxDDD\AppServices\TransactionFactory;
-use SaatchiArt\BentoBoxDDD\Domain\Repositories\ArtworkRepository;
-use SaatchiArt\BentoBoxDDD\Domain\Repositories\UserRepository;
+use SaatchiArt\BentoBoxDDD\Domain\Repositories\Artwork;
+use SaatchiArt\BentoBoxDDD\Domain\Repositories\User;
 
 
 $databaseManager = new DatabaseManager();
@@ -25,7 +25,7 @@ $resultIfAny = $transactionExample1->provisionAndSimpleExecute(static function (
     // order of provision must match the order of the callable arguments.
     return [$artworkRepository, $userRepository];
 
-}, static function (ArtworkRepository $artworkRepository, UserRepository $userRepository) {
+}, static function (Artwork $artworkRepository, User $userRepository) {
 
     $artworks = $artworkRepository->getByUserId(1);
     $user = $userRepository->findByUserId(1);
@@ -48,7 +48,7 @@ $resultIfAny = $failingTransaction->provisionAndSimpleExecute(static function ()
     return [$userRepository, $artworkRepository];
 
     // because it does not match the provision
-}, static function (ArtworkRepository $artworkRepository, UserRepository $userRepository) {
+}, static function (Artwork $artworkRepository, User $userRepository) {
 
     $artworks = $artworkRepository->getByUserId(1);
     $user = $userRepository->findByUserId(1);

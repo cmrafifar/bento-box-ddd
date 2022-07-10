@@ -6,7 +6,7 @@ namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories;
 
 use Illuminate\Database\DatabaseManager;
 
-class Transaction extends AbstractSupportsTransactions
+class Transaction extends AbstractSingleConnection
 {
     private string $connectionName;
 
@@ -17,7 +17,7 @@ class Transaction extends AbstractSupportsTransactions
     }
 
     /** @inheritDoc */
-    protected function getConnectionName(): string
+    public function getConnectionName(): string
     {
         return $this->connectionName;
     }

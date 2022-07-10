@@ -6,9 +6,9 @@ namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories;
 
 use Illuminate\Database\Connection;
 use Illuminate\Database\DatabaseManager;
-use SaatchiArt\BentoBoxDDD\Domain\Repositories\SupportsTransactions;
+use SaatchiArt\BentoBoxDDD\Domain\Repositories\SingleConnection;
 
-abstract class AbstractSupportsTransactions implements SupportsTransactions
+abstract class AbstractSingleConnection implements SingleConnection
 {
     protected DatabaseManager $databaseManager;
 
@@ -21,30 +21,12 @@ abstract class AbstractSupportsTransactions implements SupportsTransactions
     }
 
     /** Get name of db connection */
-    abstract protected function getConnectionName(): string;
+    abstract public function getConnectionName(): string;
 
     /** Connectino by connection name */
     protected function getConnection(): Connection
     {
         $connName = $this->getConnectionName();
         return $this->databaseManager->connection($connName);
-    }
-
-    /** @inheritDoc */
-    public function beginTransaction()
-    {
-        $this->getConnection()->beginTransaction();
-    }
-
-    /** @inheritDoc */
-    public function commitTransaction()
-    {
-        $this->getConnection()->commit();
-    }
-
-    /** @inheritDoc */
-    public function rollbackTransaction()
-    {
-        $this->getConnection()->rollBack();
     }
 }
