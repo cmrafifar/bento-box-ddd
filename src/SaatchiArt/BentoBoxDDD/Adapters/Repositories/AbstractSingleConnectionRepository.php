@@ -8,7 +8,7 @@ use Illuminate\Database\Connection;
 use Illuminate\Database\DatabaseManager;
 use SaatchiArt\BentoBoxDDD\Domain\Repositories\SingleConnection;
 
-abstract class AbstractSingleConnection implements SingleConnection
+abstract class AbstractSingleConnectionRepository implements SingleConnection
 {
     protected DatabaseManager $databaseManager;
 
@@ -23,8 +23,8 @@ abstract class AbstractSingleConnection implements SingleConnection
     /** Get name of db connection */
     abstract public function getConnectionName(): string;
 
-    /** Connectino by connection name */
-    protected function getConnection(): Connection
+    /** Connection by connection name */
+    public function getConnection(): Connection
     {
         $connName = $this->getConnectionName();
         return $this->databaseManager->connection($connName);

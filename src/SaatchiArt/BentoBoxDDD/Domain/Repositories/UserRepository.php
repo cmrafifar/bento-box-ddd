@@ -7,7 +7,7 @@ namespace SaatchiArt\BentoBoxDDD\Domain\Repositories;
 use SaatchiArt\BentoBoxDDD\Domain\Exceptions\UserNotFoundException;
 use SaatchiArt\BentoBoxDDD\Entities\Users\UserEntity;
 
-interface User extends SingleConnection
+interface UserRepository extends SingleConnection
 {
     /** @throws UserNotFoundException */
     public function findByUserId(int $userId): UserEntity;

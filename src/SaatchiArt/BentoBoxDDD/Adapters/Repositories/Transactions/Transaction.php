@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories;
+namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories\Transactions;
 
 use Illuminate\Database\DatabaseManager;
+use SaatchiArt\BentoBoxDDD\Adapters\Repositories\AbstractSingleConnectionRepository;
 
-class Transaction extends AbstractSingleConnection
+class Transaction extends AbstractSingleConnectionRepository
 {
     private string $connectionName;
 
     public function __construct(DatabaseManager $databaseManager, string $connectionName)
     {
-        $this->databaseManager = $databaseManager;
+        parent::__construct($databaseManager);
         $this->connectionName = $connectionName;
     }
 

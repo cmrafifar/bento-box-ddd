@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories;
 
-use SaatchiArt\BentoBoxDDD\Domain\Repositories\Artwork;
+use SaatchiArt\BentoBoxDDD\Domain\Repositories\ArtworkRepository;
 use SaatchiArt\BentoBoxDDD\Entities\Artworks\ArtworkEntity;
 use SaatchiArt\BentoBoxDDD\Entities\Artworks\ArtworkImageValueObject;
 
-final class ArtworkRepositoryMysqlImpl extends AbstractSingleConnection implements Artwork
+final class ArtworkRepositoryMysqlImpl extends AbstractSingleConnectionRepository implements ArtworkRepository
 {
     /** @inheritDoc */
     public function getConnectionName(): string

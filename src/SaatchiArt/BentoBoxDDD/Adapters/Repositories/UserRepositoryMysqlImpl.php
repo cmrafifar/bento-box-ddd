@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories;
 
 use SaatchiArt\BentoBoxDDD\Domain\Exceptions\UserNotFoundException;
-use SaatchiArt\BentoBoxDDD\Domain\Repositories\User;
+use SaatchiArt\BentoBoxDDD\Domain\Repositories\UserRepository;
 use SaatchiArt\BentoBoxDDD\Entities\Users\UserEntity;
 
-final class UserRepositoryMysqlImpl extends AbstractSingleConnection implements User
+final class UserRepositoryMysqlImpl extends AbstractSingleConnectionRepository implements UserRepository
 {
     /** @inheritDoc */
     public function getConnectionName(): string

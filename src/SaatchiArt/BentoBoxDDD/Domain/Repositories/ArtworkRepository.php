@@ -6,7 +6,7 @@ namespace SaatchiArt\BentoBoxDDD\Domain\Repositories;
 
 use SaatchiArt\BentoBoxDDD\Entities\Artworks\ArtworkEntity;
 
-interface Artwork extends SingleConnection
+interface ArtworkRepository extends SingleConnection
 {
     /** @return ArtworkEntity[] */
     public function getByUserId(int $userId): array;
