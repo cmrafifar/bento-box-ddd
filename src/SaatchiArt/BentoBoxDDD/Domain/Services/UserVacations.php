@@ -32,11 +32,21 @@ class UserVacations
             $artwork->makeNotForSale();
         }
 
-        $this->userRepository->executeSimpleTransaction(function () use ($user, $artworks) {
+        $this->userRepository->beginTransaction();
+
+        try {
             $this->userRepository->storeUser($user);
             foreach ($artworks as $artwork) {
                 $this->artworkRepository->storeArtwork($artwork);
             }
-        });
+
+        } catch (\Throwable $throwable) {
+
+            $this->userRepository->rollBack();
+
+            throw $throwable;
+        }
+
+        $this->userRepository->commit();
     }
 }

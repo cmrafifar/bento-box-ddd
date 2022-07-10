@@ -47,20 +47,4 @@ abstract class AbstractSupportsTransactions implements SupportsTransactions
     {
         $this->getConnection()->rollBack();
     }
-
-    /** @inheritDoc */
-    public function executeSimpleTransaction(callable $callback)
-    {
-        $conn = $this->getConnection();
-        $conn->beginTransaction();
-        try {
-            $resultIfAny = $callback();
-        } catch (\Throwable $throwable) {
-            $conn->rollBack();
-            throw $throwable;
-        }
-
-        $conn->commit();
-        return $resultIfAny;
-    }
 }
