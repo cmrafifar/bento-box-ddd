@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace SaatchiArt\BentoBoxDDD\Adapters\Repositories;
 
+use SaatchiArt\BentoBoxDDD\Domain\Exceptions\UserNotFoundException;
 use SaatchiArt\BentoBoxDDD\Domain\Repositories\UserRepository;
 use SaatchiArt\BentoBoxDDD\Entities\Users\UserEntity;
-use SaatchiArt\BentoBoxDDD\Exceptions\UserNotFoundException;
 
-final class UserRepositoryMysqlImpl extends AbstractSupportsTransactions implements UserRepository
+final class UserRepositoryMysqlImpl extends AbstractSingleConnectionRepository implements UserRepository
 {
     /** @inheritDoc */
-    protected function getConnectionName(): string
+    public function getConnectionName(): string
     {
         return 'central1';
     }
@@ -39,5 +39,24 @@ final class UserRepositoryMysqlImpl extends AbstractSupportsTransactions impleme
                 'id' => $user->getId(),
                 'is_on_vacation' => $user->isOnVacation(),
             ]);
+    }
+
+
+    /** @inheritDoc */
+    public function beginTransaction()
+    {
+        $this->getConnection()->beginTransaction();
+    }
+
+    /** @inheritDoc */
+    public function commitTransaction()
+    {
+        $this->getConnection()->commit();
+    }
+
+    /** @inheritDoc */
+    public function rollbackTransaction()
+    {
+        $this->getConnection()->rollBack();
     }
 }
